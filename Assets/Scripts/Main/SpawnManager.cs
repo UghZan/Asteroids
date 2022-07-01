@@ -41,11 +41,8 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         _mainCamera = Camera.main;
-        _asteroidsToSpawn = StartingAsteroids;
 
-        //UFO will spawn in a few seconds after start
-        _UFODown = true;
-        _nextUFOSpawnCountdown = GetUFOSpawnDelay();
+        ResetToStart();
     }
 
     public void ResetToStart()
@@ -55,6 +52,11 @@ public class SpawnManager : MonoBehaviour
         ShotPool.ResetPool();
         ExplosionPool.ResetPool();
         DebrisPool.ResetPool();
+
+        _asteroidsToSpawn = StartingAsteroids;
+        _UFODown = true;
+        _nextUFOSpawnCountdown = GetUFOSpawnDelay();
+        
         FirstWave();
     }
 

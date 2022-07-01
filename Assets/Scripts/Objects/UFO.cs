@@ -42,7 +42,7 @@ public class UFO : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Asteroid"))
+        if (other.CompareTag("Asteroid") || other.CompareTag("Player"))
             DisableUFO();
         else if (other.CompareTag("Shot"))
         {

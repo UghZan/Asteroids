@@ -29,6 +29,7 @@ public class ObjectPool : MonoBehaviour
         {
             transform.GetChild(i).gameObject.SetActive(false);
         }
+        ObjectsActive = 0;
     }
 
     public GameObject GetPooledObject()

@@ -6166,7 +6166,7 @@ MonoBehaviour:
       m_Calls: []
   PlayerVisual: {fileID: 1280670813}
   PlayerVisualAnimator: {fileID: 1280670817}
-  LivesOnStart: 0
+  LivesOnStart: 3
   ImmunityOnStart: 3
   ImmunityOnDeath: 3
   Controller: {fileID: 672628662}
@@ -6363,6 +6363,7 @@ MonoBehaviour:
   ScorePerMediumAsteroid: 50
   ScorePerSmallAsteroid: 100
   ScorePerUFO: 200
+  ScorePopupLingerTime: 3
 --- !u!114 &735705839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6397,7 +6398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2eb513644667aa469c39e5906653cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopupPrefabPool: {fileID: 0}
+  PopupPrefabPool: {fileID: 1576264104}
   UICanvas: {fileID: 1702172314}
   MainCamera: {fileID: 963194227}
 --- !u!1 &748285343
