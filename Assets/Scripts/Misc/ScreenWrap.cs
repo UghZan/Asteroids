@@ -28,10 +28,14 @@ public class ScreenWrap : MonoBehaviour
     bool CheckVisibility()
     {
         _viewPos = _camera.WorldToViewportPoint(transform.position);
-        /*if (_viewPos.x > GameSettings.minScreenWrapBorder && _viewPos.x < GameSettings.maxScreenWrapBorder 
-            && _viewPos.y > GameSettings.minScreenWrapBorder && _viewPos.y < GameSettings.maxScreenWrapBorder) return true;
-        return false;*/
+        
         return VisualRenderer.isVisible;
+    }
+
+    bool ViewportPositionOutOfBounds()
+    {
+        return (_viewPos.x < 0 && _viewPos.x > 1
+            && _viewPos.y > 1 && _viewPos.y < 0);
     }
 
     //Wraps object position around screen
@@ -46,14 +50,14 @@ public class ScreenWrap : MonoBehaviour
 
         Vector3 newPos = transform.position;
         if (!_wrappedXOnce)
-            if (_viewPos.x > GameSettings.instance.MaxScreenWrapBorder || _viewPos.x < GameSettings.instance.MinScreenWrapBorder)
+            if (_viewPos.x < 0 || _viewPos.x > 1)
             {
                 newPos.x = -newPos.x;
                 _wrappedXOnce = true;
             }
 
         if (!_wrappedYOnce)
-            if (_viewPos.y > GameSettings.instance.MaxScreenWrapBorder || _viewPos.y < GameSettings.instance.MinScreenWrapBorder)
+            if (_viewPos.y < 0 || _viewPos.y > 1)
             {
                 newPos.y = -newPos.y;
                 _wrappedYOnce = true;
@@ -62,5 +66,17 @@ public class ScreenWrap : MonoBehaviour
         //sets z to 0 just in case
         newPos.z = 0;
         transform.position = newPos;
+
+        //if object by any chance flies out of bounds and doesn't come back (very rarely that happens for some reason), forcefully bring it back
+        if (_wrappedXOnce && _wrappedYOnce && ViewportPositionOutOfBounds())
+        {
+            MoveInBounds();
+        }
+    }
+
+    void MoveInBounds()
+    {
+        Vector2 newViewPos = new Vector2(Mathf.Clamp01(_viewPos.x), Mathf.Clamp01(_viewPos.y));
+        transform.position = _camera.ViewportToWorldPoint(newViewPos);
     }
 }

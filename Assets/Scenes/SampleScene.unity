@@ -6111,7 +6111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Acceleration: 4
   MaxSpeed: 8
-  RotationSpeed: 0.1
+  RotationSpeed: 0.15
   InputControl: {fileID: 672628661}
   ShotPool: {fileID: 201727171}
   ShotSpeed: 8
@@ -6355,10 +6355,8 @@ MonoBehaviour:
   GameStarted: 0
   GamePaused: 1
   ControlScheme: 0
-  MaxScreenWrapBorder: 1
-  MinScreenWrapBorder: 0
   SmallerAsteroidsAreFaster: 1
-  ChildrenAsteroidsPerAsteroid: 2
+  ChildrenAsteroidsAngle: 45
   ScorePerLargeAsteroid: 20
   ScorePerMediumAsteroid: 50
   ScorePerSmallAsteroid: 100

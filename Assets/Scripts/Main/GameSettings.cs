@@ -14,13 +14,9 @@ public class GameSettings : MonoBehaviour
     public bool GamePaused = true;
     public bool ControlScheme = false; //if false, the keyboard scheme is used, otherwise mouse+keyboard
 
-    [Header("Screen Wrap Settings")]
-    public float MaxScreenWrapBorder = 1; //rightmost/upmost viewport coordinate
-    public float MinScreenWrapBorder = 0; //leftmost/lowest viewport coordinate
-
     [Header("Gameplay Settings")]
     public bool SmallerAsteroidsAreFaster = true; //if true, smaller asteroids may be a bit faster
-    public int ChildrenAsteroidsPerAsteroid = 2; //decides how much smaller asteroids spawn after a bigger one is destroyed
+    public int ChildrenAsteroidsAngle = 45; //angle in degrees, deviation for children asteroids
 
     [Header("Score Settings")]
     public int ScorePerLargeAsteroid = 20;

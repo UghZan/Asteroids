@@ -81,7 +81,7 @@ public class Asteroid : MonoBehaviour
         //if it's a smallest asteroid or we collided with UFO/player, just destroy the asteroid, otherwise create children
         if (_size > 0 && createChildren)
         {
-            SpawnManager.instance.CreateChildAsteroids(_size, transform.position, transform.up, GameSettings.instance.ChildrenAsteroidsPerAsteroid);
+            SpawnManager.instance.CreateChildAsteroids(_size, transform.position, transform.up);
         }
         gameObject.SetActive(false);
         SpawnManager.instance.CreateAsteroidDebris(transform.position);

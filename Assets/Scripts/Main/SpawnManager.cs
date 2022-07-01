@@ -190,7 +190,9 @@ public class SpawnManager : MonoBehaviour
     {
         Vector2 position = GetRandomPositionOutsideViewport();
         Vector3 worldPosition = GetCorrectWorldPositionFromViewport(position);
-        Quaternion randomRotation = Quaternion.LookRotation(Vector3.forward, Random.insideUnitCircle); //gives asteroid random rotation so that they fly towards it
+        Vector3 vectorTowardsCenter = _mainCamera.ViewportToWorldPoint(Vector2.one / 2)-worldPosition;
+        //vector from spawn position to center of screen
+        Quaternion randomRotation = Quaternion.LookRotation(Vector3.forward, (Vector2)vectorTowardsCenter + Random.insideUnitCircle*Camera.main.orthographicSize); //gives asteroid random rotation so that they fly towards center of screen with some small deviation
         float speed = Random.Range(AsteroidSpeedRange.x, AsteroidSpeedRange.y + 1);
         SpawnRandomAsteroid(worldPosition, randomRotation, speed, 2);
     }
@@ -223,7 +225,7 @@ public class SpawnManager : MonoBehaviour
 
     //create a set amount of children asteroids for a certain position that continue to fly on a certain direction with a bit of deviation
     //correctly counts angles for different amount of children
-    public void CreateChildAsteroids(int oldSize, Vector3 position, Vector3 originalDirection, int count)
+    public void CreateChildAsteroids(int oldSize, Vector3 position, Vector3 originalDirection)
     {
         float newSpeed;
 
@@ -232,9 +234,9 @@ public class SpawnManager : MonoBehaviour
         else
             newSpeed = Random.Range(AsteroidSpeedRange.x, AsteroidSpeedRange.y + 1);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < 2; i++)
         {
-            Quaternion nextDirectionRotation = Quaternion.AngleAxis(Mathf.Rad2Deg * (-Mathf.PI/2 + i * Mathf.PI/count), Vector3.forward);
+            Quaternion nextDirectionRotation = Quaternion.AngleAxis(GameSettings.instance.ChildrenAsteroidsAngle * (i == 0 ? -1 : 1), Vector3.forward);
             SpawnRandomAsteroid(position, Quaternion.LookRotation(Vector3.forward, originalDirection) * nextDirectionRotation, newSpeed, oldSize - 1);
         }
     }
