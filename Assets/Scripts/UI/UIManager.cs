@@ -22,15 +22,15 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PauseMenuContinueButton.interactable = GameSettings.GameStarted;
-        PauseMenuControlButtonText.text = "Controls: " + (GameSettings.ControlScheme ? "KB+M" : "KB");
+        PauseMenuContinueButton.interactable = GameSettings.instance.GameStarted;
+        PauseMenuControlButtonText.text = "Controls: " + (GameSettings.instance.ControlScheme ? "KB+M" : "KB");
         PlayerHealth.OnDeath.AddListener(GameOver);
     }
 
     void GameOver()
     {
         GameOverText.SetActive(true);
-        GameSettings.GameStarted = false;
+        GameSettings.instance.GameStarted = false;
     }
 
     // Update is called once per frame
@@ -45,13 +45,13 @@ public class UIManager : MonoBehaviour
 
     public void Pause()
     {
-        if (GameSettings.GameStarted || !GameSettings.GamePaused) //first one doesn't allow to exit out of pause menu when game hasn't even started yet
+        if (GameSettings.instance.GameStarted || !GameSettings.instance.GamePaused) //first one doesn't allow to exit out of pause menu when game hasn't even started yet
         {                                                         //second one allows to open pause menu if game has ended (game over sequence)
             GameOverText.SetActive(false);
-            GameSettings.GamePaused = !GameSettings.GamePaused;
+            GameSettings.instance.GamePaused = !GameSettings.instance.GamePaused;
 
-            PauseMenu.SetActive(GameSettings.GamePaused);
-            PauseMenuContinueButton.interactable = GameSettings.GameStarted;
+            PauseMenu.SetActive(GameSettings.instance.GamePaused);
+            PauseMenuContinueButton.interactable = GameSettings.instance.GameStarted;
         }
     }
 
@@ -62,20 +62,25 @@ public class UIManager : MonoBehaviour
         PlayerHealth.ResetToStart();
         PlayerControls.ResetToStart();
         SpawningManager.ResetToStart();
-        GameSettings.GameStarted = true;
+        GameSettings.instance.GameStarted = true;
         Pause();
     }
 
     public void SwitchControlScheme()
     {
-        GameSettings.ControlScheme = !GameSettings.ControlScheme;
+        GameSettings.instance.ControlScheme = !GameSettings.instance.ControlScheme;
 
-        PauseMenuControlButtonText.text = "Controls: " + (GameSettings.ControlScheme ? "KB+M" : "KB");
+        PauseMenuControlButtonText.text = "Controls: " + (GameSettings.instance.ControlScheme ? "KB+M" : "KB");
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void CreateScoreTextPopup(Vector2 position, int score)
+    {
+
     }
 }
 

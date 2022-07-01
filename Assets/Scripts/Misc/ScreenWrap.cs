@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that adds screen wrapping capability to object it is put on
 public class ScreenWrap : MonoBehaviour
 {
     [SerializeField] Renderer VisualRenderer;
@@ -23,7 +24,7 @@ public class ScreenWrap : MonoBehaviour
         Wrap();
     }
 
-    //uses renderer to decide if object is visible (inside viewport)
+    //Uses renderer to decide if object is visible (inside viewport)
     bool CheckVisibility()
     {
         _viewPos = _camera.WorldToViewportPoint(transform.position);
@@ -33,6 +34,7 @@ public class ScreenWrap : MonoBehaviour
         return VisualRenderer.isVisible;
     }
 
+    //Wraps object position around screen
     void Wrap()
     {
         if (CheckVisibility())
@@ -44,20 +46,20 @@ public class ScreenWrap : MonoBehaviour
 
         Vector3 newPos = transform.position;
         if (!_wrappedXOnce)
-            if (_viewPos.x > GameSettings.MaxScreenWrapBorder || _viewPos.x < GameSettings.MinScreenWrapBorder)
+            if (_viewPos.x > GameSettings.instance.MaxScreenWrapBorder || _viewPos.x < GameSettings.instance.MinScreenWrapBorder)
             {
                 newPos.x = -newPos.x;
                 _wrappedXOnce = true;
             }
 
         if (!_wrappedYOnce)
-            if (_viewPos.y > GameSettings.MaxScreenWrapBorder || _viewPos.y < GameSettings.MinScreenWrapBorder)
+            if (_viewPos.y > GameSettings.instance.MaxScreenWrapBorder || _viewPos.y < GameSettings.instance.MinScreenWrapBorder)
             {
                 newPos.y = -newPos.y;
                 _wrappedYOnce = true;
             }
 
-        //set z to 0 just in case
+        //sets z to 0 just in case
         newPos.z = 0;
         transform.position = newPos;
     }

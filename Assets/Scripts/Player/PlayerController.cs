@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class responsible for player movement and attack behaviour
 public class PlayerController : MonoBehaviour
 {
     [Header("Control Settings")]
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] AudioSource ShipAudioSource;
 
-    public bool LockedControls;
+    public bool LockedControls; //if true, player will not be able to move/rotate
     Quaternion _rotation;
     Vector2 _currentVelocity;
     float _shotDelay, _shotDistance;
@@ -31,9 +32,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
-        _shotDistance = _camera.orthographicSize * 2 * _camera.aspect;
+        _shotDistance = _camera.orthographicSize * 2 * _camera.aspect; //Shots will fly for around one screen width
     }
 
+    //Called on new game to reset ship back to center, remove all rotation and velocity
     public void ResetToStart()
     {
         if(AccelerationEffect.isPlaying) AccelerationEffect.Stop();
@@ -42,10 +44,9 @@ public class PlayerController : MonoBehaviour
         _currentVelocity = Vector2.zero;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (GameSettings.GamePaused || LockedControls) return;
+        if (GameSettings.instance.GamePaused || LockedControls) return;
 
         UpdateShipRotation();
         RotateShip();
@@ -60,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot()
     {
-        //if shoot button is pressed and shot cooldown is over
+        //If shoot button is pressed and shot cooldown is over
         if(InputControl.IsShooting() && _shotDelay > 1/ShotsPerSecond)
         {
             SpawnManager.instance.CreatePlayerShot(transform.position + transform.up * 2, transform.up, ShotSpeed, _shotDistance);
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!AccelerationEffect.isPlaying) AccelerationEffect.Play();
             if (!ShipAudioSource.isPlaying) ShipAudioSource.Play();
-            //smoothly accelerate towards current direction of ship
+            //Smoothly accelerate towards current direction of ship
             _currentVelocity = Vector2.Lerp(_currentVelocity, transform.up * MaxSpeed, Time.deltaTime * Acceleration);
         }
         else
@@ -98,10 +99,10 @@ public class PlayerController : MonoBehaviour
 
     void UpdateShipRotation()
     {
-        if (GameSettings.ControlScheme) //mouse+keyboard control scheme
+        if (GameSettings.instance.ControlScheme) //mouse+keyboard control scheme
         {
             Vector2 shipScreenPosition = _camera.WorldToScreenPoint(transform.position);
-            //get angle towards mouse with a 90 degree correction
+            //Get angle towards mouse with a 90 degree correction
             float requiredAngle = Mathf.Atan2(Input.mousePosition.y - shipScreenPosition.y, Input.mousePosition.x - shipScreenPosition.x) * Mathf.Rad2Deg - 90f;
             _rotation = Quaternion.RotateTowards(_rotation, Quaternion.AngleAxis(requiredAngle, Vector3.forward), RotationSpeed);
 

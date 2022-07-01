@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class with common UFO behaviour
 public class UFO : MonoBehaviour
 {
     //x is min, y is max
@@ -17,9 +18,9 @@ public class UFO : MonoBehaviour
 
     public void Init(ObjectPool parentPool, bool direction)
     {
-        //direction decides whether UFO flies right or left
+        //Direction decides whether UFO flies right or left
         _direction = direction;
-        //to correctly count disabled/enabled pool objects
+        //To correctly count disabled/enabled pool objects, we will call to pool's OnDisableObject event
         _UFOPool = parentPool;
     }
 
@@ -34,7 +35,7 @@ public class UFO : MonoBehaviour
 
     private void Update()
     {
-        if (GameSettings.GamePaused) return;
+        if (GameSettings.instance.GamePaused) return;
 
         transform.Translate((_direction ? Vector2.right : Vector2.left) * _UFOSpeed * Time.deltaTime);
     }
@@ -45,14 +46,15 @@ public class UFO : MonoBehaviour
             DisableUFO();
         else if (other.CompareTag("Shot"))
         {
+            //give player score only when UFO is shot down
+            PlayerScore.ScoreGainEvent.Invoke(GameSettings.instance.ScorePerUFO);
+            PopupManager.ShowScorePopupEvent.Invoke(GameSettings.instance.ScorePerUFO, transform.position);
             DisableUFO();
         }
     }
 
     void DisableUFO()
     {
-        PlayerScore.ScoreGainEvent.Invoke(GameSettings.ScorePerUFO);
-
         SpawnManager.instance.CreateExplosion(transform.position);
         _UFOPool.OnObjectDisabled.Invoke();
         gameObject.SetActive(false);
@@ -66,7 +68,7 @@ public class UFO : MonoBehaviour
             float timer = 0;
             while(timer < nextShotIn)
             {
-                if (!GameSettings.GamePaused) //if the game is paused, UFO cooldown doesn't update
+                if (!GameSettings.instance.GamePaused) //if the game is paused, UFO cooldown doesn't update
                     timer += Time.deltaTime;
                 yield return null;
             }

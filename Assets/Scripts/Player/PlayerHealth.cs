@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+//Class responsible for lives/damage system for player
 public class PlayerHealth : MonoBehaviour
 {
     public UnityEvent OnDeath = new UnityEvent();
@@ -12,18 +13,20 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] Animator PlayerVisualAnimator;
 
     [Header("Gameplay Settings")]
+    [SerializeField] int LivesOnStart;
     [SerializeField] float ImmunityOnStart; //how much seconds of immunity player has on start
     [SerializeField] float ImmunityOnDeath; //ditto, but for after dying
 
     [Header("Misc References")]
     [SerializeField] PlayerController Controller;
 
-    float _immunityTimer;
+    float _immunityTimer; //while this is not 0, player is immune and plays blinking animation
     public int Lives { get; private set; }
 
+    //Called on new game to reset lives and give starting immunity
     public void ResetToStart()
     {
-        Lives = GameSettings.PlayerLivesOnStart;
+        Lives = LivesOnStart;
         _immunityTimer = ImmunityOnStart;
     }
 
@@ -47,9 +50,9 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        if (GameSettings.GamePaused) return;
+        if (GameSettings.instance.GamePaused) return;
 
-        //if we are immune, blinking animation plays
+        //If we are immune, blinking animation plays
         if(_immunityTimer > 0)
         {
             _immunityTimer -= Time.deltaTime;
@@ -65,12 +68,12 @@ public class PlayerHealth : MonoBehaviour
         Controller.LockedControls = true;
         SpawnManager.instance.CreateExplosion(transform.position);
         PlayerVisual.SetActive(false);
-        Controller.ResetToStart(); //reset to center of the screen, no rotation, no velocity
+        Controller.ResetToStart(); //Reset to center of the screen, no rotation, no velocity
 
         yield return new WaitForSeconds(1.0f);
 
         PlayerVisual.SetActive(true);
-        _immunityTimer = ImmunityOnDeath; //give immunity
+        _immunityTimer = ImmunityOnDeath; //Give immunity to player
         Controller.LockedControls = false;
 
         yield return null;

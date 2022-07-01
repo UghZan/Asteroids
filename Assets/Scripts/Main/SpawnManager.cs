@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class responsible for creating game objects
 public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager instance;
@@ -69,7 +70,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameSettings.GamePaused) return;
+        if (GameSettings.instance.GamePaused) return;
 
         //if no UFOs on field, count down til next spawn
         if (UFOPool.ObjectsActive == 0 && !_UFODown)
@@ -226,7 +227,7 @@ public class SpawnManager : MonoBehaviour
     {
         float newSpeed;
 
-        if (GameSettings.SmallerAsteroidsAreFaster)
+        if (GameSettings.instance.SmallerAsteroidsAreFaster)
             newSpeed = Random.Range(AsteroidSpeedRange.x + (2 - oldSize), AsteroidSpeedRange.y + 1 + (2 - oldSize));
         else
             newSpeed = Random.Range(AsteroidSpeedRange.x, AsteroidSpeedRange.y + 1);

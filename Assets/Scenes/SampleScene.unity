@@ -6166,6 +6166,7 @@ MonoBehaviour:
       m_Calls: []
   PlayerVisual: {fileID: 1280670813}
   PlayerVisualAnimator: {fileID: 1280670817}
+  LivesOnStart: 0
   ImmunityOnStart: 3
   ImmunityOnDeath: 3
   Controller: {fileID: 672628662}
@@ -6289,6 +6290,7 @@ GameObject:
   - component: {fileID: 735705837}
   - component: {fileID: 735705838}
   - component: {fileID: 735705839}
+  - component: {fileID: 735705840}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6313,6 +6315,7 @@ Transform:
   - {fileID: 201727172}
   - {fileID: 527134870}
   - {fileID: 748285344}
+  - {fileID: 1576264103}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6349,6 +6352,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15da2863aeb59584c909dbf0828f77ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameStarted: 0
+  GamePaused: 1
+  ControlScheme: 0
+  MaxScreenWrapBorder: 1
+  MinScreenWrapBorder: 0
+  SmallerAsteroidsAreFaster: 1
+  ChildrenAsteroidsPerAsteroid: 2
+  ScorePerLargeAsteroid: 20
+  ScorePerMediumAsteroid: 50
+  ScorePerSmallAsteroid: 100
+  ScorePerUFO: 200
 --- !u!114 &735705839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6371,6 +6385,21 @@ MonoBehaviour:
   PauseMenuContinueButton: {fileID: 419942535}
   PauseMenuControlButtonText: {fileID: 1556860144}
   GameOverText: {fileID: 420389808}
+--- !u!114 &735705840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735705835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2eb513644667aa469c39e5906653cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PopupPrefabPool: {fileID: 0}
+  UICanvas: {fileID: 1702172314}
+  MainCamera: {fileID: 963194227}
 --- !u!1 &748285343
 GameObject:
   m_ObjectHideFlags: 0
@@ -12154,6 +12183,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556860142}
   m_CullTransparentMesh: 1
+--- !u!1 &1576264102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1576264103}
+  - component: {fileID: 1576264104}
+  m_Layer: 0
+  m_Name: ScorePopupPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1576264103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576264102}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 735705836}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1576264104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576264102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f9f212658b7ff40b0ad968606a7054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolObject: {fileID: 589454082642586149, guid: 1f8bf19496816b249802dadab49c84d7, type: 3}
+  _preSpawns: 50
+  _overflowSpawnAmount: 20
+  OnObjectDisabled:
+    m_PersistentCalls:
+      m_Calls: []
+  ObjectsActive: 0
 --- !u!1 &1602419308
 GameObject:
   m_ObjectHideFlags: 0

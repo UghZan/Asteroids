@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+//Object Pooling implementation
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] GameObject _poolObject;
@@ -12,7 +13,6 @@ public class ObjectPool : MonoBehaviour
     public int ObjectsActive;
 
     int _currentAmount;
-    // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < _preSpawns; i++)
