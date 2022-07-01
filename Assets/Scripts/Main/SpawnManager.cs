@@ -41,8 +41,6 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         _mainCamera = Camera.main;
-
-        ResetToStart();
     }
 
     public void ResetToStart()
